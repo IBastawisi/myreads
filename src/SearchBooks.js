@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import serializeForm from 'form-serialize'
 import * as booksAPI from './BooksAPI'
-import { Book } from './ListBooks'
+import Book from './Book'
 
-class Addbook extends Component {
+class SearchBooks extends Component {
   state = {
     query: '',
     books: []
   }
 
-  updateQuery = (query) => {
-    this.setState({ query: query.trim() })
+  search = (query) => {
+    this.setState({ query})
     if (query) {
       booksAPI.search(query).then((books) => {
         this.setState({ books })
@@ -28,13 +27,13 @@ class Addbook extends Component {
           <Link className="close-search" to='/'>Close</Link>
           <div className="search-books-input-wrapper">
             <input type="text" placeholder="Search by title or author" value={query}
-              onChange={(event) => this.updateQuery(event.target.value)} />
+              onChange={(event) => this.search(event.target.value)} />
 
           </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {(!books.error && books.map(book => <Book key={book.id} book={book} />)) || <li>no result</li>}
+            {(!books.error && books.map(book => <Book key={book.id} book={book} updateShelfs={this.props.updateShelfs}/>)) || <li>no result</li>}
           </ol>
         </div>
       </div>
@@ -42,4 +41,4 @@ class Addbook extends Component {
   }
 }
 
-export default Addbook
+export default SearchBooks
