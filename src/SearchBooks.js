@@ -13,7 +13,7 @@ class SearchBooks extends Component {
       booksAPI.search(query).then((books) => {
         // console.log(books)
         // console.log(this.props.books)
-        books.map((book) => (
+        [...books].map((book) => (
           this.props.books.map((shelfed) => (
             book.id === shelfed.id && (book.shelf = shelfed.shelf)
           ))
