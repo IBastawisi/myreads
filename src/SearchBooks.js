@@ -5,14 +5,19 @@ import Book from './Book'
 
 class SearchBooks extends Component {
   state = {
-    query: '',
     books: []
   }
 
   search = (query) => {
-    this.setState({ query})
     if (query) {
       booksAPI.search(query).then((books) => {
+        // console.log(books)
+        // console.log(this.props.books)
+        books.map((book) => (
+          this.props.books.map((shelfed) => (
+            book.id === shelfed.id && (book.shelf = shelfed.shelf)
+          ))
+        ))
         this.setState({ books })
       })
     } else { this.setState({ books: [] }) }
@@ -33,7 +38,7 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {(!books.error && books.map(book => <Book key={book.id} book={book} updateShelfs={this.props.updateShelfs}/>)) || <li>no result</li>}
+            {(!books.error && books.map(book => <Book key={book.id} book={book} updateShelfs={this.props.updateShelfs} />)) || <li>no result</li>}
           </ol>
         </div>
       </div>
