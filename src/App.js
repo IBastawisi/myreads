@@ -7,26 +7,37 @@ import Library from './Library';
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
-    shelfs: ''
+    books: []
   }
 
   componentDidMount() {
     booksAPI.getAll().then((books) => {
       this.setState({ books })
-      // console.log(books)
     })
   }
 
   updateShelfs = (book, shelf) => {
+    // remove book
+    this.setState((state) => ({
+      books: state.books.filter((b) => b.id !== book.id)
+    }))
+
+    // update server
     booksAPI.update(book, shelf).then((shelfs) => {
-      this.setState({ shelfs })
-      console.log(this.state.shelfs)
+      // console.log(shelfs)
+      // console.log(this.state.books)
+
+      // get book
+      booksAPI.get(book.id).then(book =>
+        this.setState(state => ({
+          books: state.books.concat([book])
+        }))
+      )
     })
   }
   render() {
     return (
-      <div className="app">
+      <div className="app" >
         <Route exact path='/' render={() => (
           <Library
             books={this.state.books}
