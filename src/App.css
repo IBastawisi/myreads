@@ -119,6 +119,15 @@ body, .app {
   text-align: left;
 }
 
+.books-grid .books-empty {
+  text-align: center;
+}
+
+.books-grid .books-empty img {
+  width: 128px;
+  height: 128px;
+}
+
 .book {
   width: 140px;
 }
@@ -172,3 +181,4 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+

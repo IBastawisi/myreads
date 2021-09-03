@@ -12,17 +12,17 @@ const headers = {
   'Authorization': token
 }
 
-export const get = (bookId) =>
+export const get = (bookId: string) =>
   fetch(`${api}/books/${bookId}`, { headers })
     .then(res => res.json())
     .then(data => data.book)
 
-export const getAll = () =>
+export const getAll = (): Promise<book[]> =>
   fetch(`${api}/books`, { headers })
     .then(res => res.json())
     .then(data => data.books)
 
-export const update = (book, shelf) =>
+export const update = (book: book, shelf: shelf) =>
   fetch(`${api}/books/${book.id}`, {
     method: 'PUT',
     headers: {
@@ -32,7 +32,7 @@ export const update = (book, shelf) =>
     body: JSON.stringify({ shelf })
   }).then(res => res.json())
 
-export const search = (query) =>
+export const search = (query: string): Promise<Omit<book, shelf>[] & { error: string }> =>
   fetch(`${api}/search`, {
     method: 'POST',
     headers: {
